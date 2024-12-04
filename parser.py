@@ -97,7 +97,7 @@ PARSING_TABLE = {('S', '$'): ['MAIN'],
  ('NUMEXPR′', '=='): [],
  ('NUMEXPR′', '<>'): [],
  ('NUMEXPR′', '+'): ['+', 'TERM', 'NUMEXPR′'],
- ('NUMEXPR′', '−'): ['−', 'TERM', 'NUMEXPR′'],
+ ('NUMEXPR′', '-'): ['-', 'TERM', 'NUMEXPR′'],
  ('TERM', 'id'): ['FACTOR', 'TERM′'],
  ('TERM', '('): ['FACTOR', 'TERM′'],
  ('TERM', 'num'): ['FACTOR', 'TERM′'],
@@ -110,8 +110,8 @@ PARSING_TABLE = {('S', '$'): ['MAIN'],
  ('TERM′', '=='): [],
  ('TERM′', '<>'): [],
  ('TERM′', '+'): [],
- ('TERM′', '−'): [],
- ('TERM′', '∗'): ['∗', 'FACTOR', 'TERM′'],
+ ('TERM′', '-'): [],
+ ('TERM′', '*'): ['*', 'FACTOR', 'TERM′'],
  ('TERM′', '/'): ['/', 'FACTOR', 'TERM′'],
  ('FACTOR', 'id'): ['id'],
  ('FACTOR', '('): ['(', 'NUMEXPR', ')'],
@@ -127,11 +127,11 @@ TERMINALS = [
 
 w = '''def id( int id , int id ) {
     int id , id , id ;
-    C := id + id ;
-    D := id + id * id ;
-    R := id - id ;
+    id := id + id ;
+    id := id + id * id ;
+    id := id - id ;
     return id ;
-}
+ }
 '''
 
 def parser(w, parsingTable):
@@ -141,9 +141,12 @@ def parser(w, parsingTable):
   matchList = list()
 
   # Prepara buffer com string de texto + $ ao final
+  w = w.replace("\n", "") # substitui caracteres de linha nova por vazios
   buffer = w.split(" ")
-  
   buffer.append("$")
+  buffer = [el for el in buffer if el != ""] #remove elementos vazios
+  print(buffer)
+
   currentSymbolIndex = 0
 
   #prepara a pilha com S$
@@ -178,12 +181,17 @@ def parser(w, parsingTable):
       
       # É terminal, mas não corresponde ao input
       print("Terminal incorreto")
+      print(len(X))
+      print(len(a))
+      print(X == a)
       return "Erro"
   
     # M[X, a] é uma entrada de erro
     elif (X, a) not in parsingTable:
       
       print("Produção não encontrada")
+      print(X)
+      print(a)
       return "Erro"
 
     # X não é terminal, aciona a produção em M
@@ -200,6 +208,7 @@ def parser(w, parsingTable):
       stack.extend(reversed(production))
     
     X = stack[-1]
+    print("Sucesso")
     print(f"Pilha: {stack}")
     print(f"Match: {matchList}" )
   
