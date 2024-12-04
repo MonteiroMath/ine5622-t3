@@ -11,115 +11,132 @@ TERMINALS = [
 
 
 w = '''
-def func1(int A, int B) {
-    int C, D, R;
-    C := A + B;
-    D := A + B * C;
-    R := C - D;
-    return R;
+def main(int x, int y) {
+    int result, temp;
+
+    result := 0;
+    temp := x + y;
+
+    if (x < y) {
+      result := x * 2;
+      }
+    else 
+    
+    print result;
+
+    return result;
 }
 
-def principal() {
-    int X, Y, R;
-    X := 4;
-    Y := 5;
-    R := func1(X, Y);
-    print R;
-    return;
+def computeSum(int a, int b, int c) {
+    int sum;
+
+    sum := a + b + c;
+
+    print sum;
+
+    return sum;
 }
+
+def computeFactorial(int n) {
+    int fact, i;
+
+    fact := 1;
+    i := 1;
+
+    fact := fact * i + n; 
+
+    print fact;
+
+    return fact;
+}
+
 '''
-
 
 
 def parser(w, parsingTable):
 
-  
-  # variável para guardar os elementos em que ocorreu match
-  matchList = list()
+    # variável para guardar os elementos em que ocorreu match
+    matchList = list()
 
+    # Prepara buffer com string de texto + $ ao final
 
-  # Prepara buffer com string de texto + $ ao final
-  
-  lexer.input(w)
-  found_tokens = []
-  while True:
-      tok = lexer.token()
-      if not tok:
-          break
-      found_tokens.append(tok.value)
+    lexer.input(w)
+    found_tokens = []
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break
+        found_tokens.append(tok.value)
 
-  print(found_tokens)
-  
-  buffer = found_tokens
-  buffer.append("$")
+    print(found_tokens)
 
-  currentSymbolIndex = 0
+    buffer = found_tokens
+    buffer.append("$")
 
-  #prepara a pilha com S$
-  stack = ['$'] + ["S"]
+    currentSymbolIndex = 0
 
-  # a = primeiro símbolo de W
-  a = buffer[currentSymbolIndex]
-  # X = símbolo do topo da pilha
-  X = stack[-1]
+    # prepara a pilha com S$
+    stack = ['$'] + ["S"]
 
-  # Enquanto a pilha não estiver fazia
-  
-  while X != "$":
-    
-    # Se X == a, realiza o match
-    if X == a:
-
-      
-      matchList.append(a)
-
-      #remove X da pilha
-      stack.pop() 
-
-      # a = próximo símbolo de W
-      currentSymbolIndex += 1
-      a = buffer[currentSymbolIndex]
-
-      
-
-    # Se X é um terminal
-    elif X in TERMINALS:
-      
-      # É terminal, mas não corresponde ao input
-      print("Terminal incorreto")
-      print(X)
-      print(a)
-      print(X == a)
-      return "Erro"
-  
-    # M[X, a] é uma entrada de erro
-    elif (X, a) not in parsingTable:
-      
-      print("Produção não encontrada")
-      print(X)
-      print(a)
-      print(("TERM′", "(") in parsingTable)
-      return "Erro"
-
-    # X não é terminal, aciona a produção em M
-    elif ((X, a) in parsingTable):
-      production = parsingTable[(X, a)]
-
-      # Imprime a produção
-      print(f"Produção: {X} → {''.join(production) if production else 'ε'}")
-      
-      #remove X da pilha
-      stack.pop()
-
-      # Empilha a produção
-      stack.extend(reversed(production))
-    
+    # a = primeiro símbolo de W
+    a = buffer[currentSymbolIndex]
+    # X = símbolo do topo da pilha
     X = stack[-1]
-    print("Sucesso")
-    print(f"Pilha: {stack}")
-    print(f"Match: {matchList}" )
-  
 
-  
+    # Enquanto a pilha não estiver fazia
+
+    while X != "$":
+
+        # Se X == a, realiza o match
+        if X == a:
+
+            matchList.append(a)
+
+            # remove X da pilha
+            stack.pop()
+
+            # a = próximo símbolo de W
+            currentSymbolIndex += 1
+            a = buffer[currentSymbolIndex]
+
+        # Se X é um terminal
+        elif X in TERMINALS:
+
+            # É terminal, mas não corresponde ao input
+            print("Terminal incorreto")
+            print(X)
+            print(a)
+            print(X == a)
+            return "Erro"
+
+        # M[X, a] é uma entrada de erro
+        elif (X, a) not in parsingTable:
+
+            print("Produção não encontrada")
+            print(X)
+            print(a)
+            print(("TERM′", "(") in parsingTable)
+            return "Erro"
+
+        # X não é terminal, aciona a produção em M
+        elif ((X, a) in parsingTable):
+
+            production = parsingTable[(X, a)]
+
+            # Imprime a produção
+            print(
+                f"Produção: {X} → {''.join(production) if production else 'ε'}")
+
+            # remove X da pilha
+            stack.pop()
+
+            # Empilha a produção
+            stack.extend(reversed(production))
+
+        X = stack[-1]
+        print("Sucesso")
+        print(f"Pilha: {stack}")
+        print(f"Match: {matchList}")
+
+
 parser(w, PARSING_TABLE)
-
