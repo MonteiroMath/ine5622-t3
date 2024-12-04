@@ -1,3 +1,6 @@
+import re
+from lexer import lexer
+
 PARSING_TABLE = {('S', '$'): ['MAIN'],
  ('S', 'def'): ['MAIN'],
  ('S', '{'): ['MAIN'],
@@ -125,24 +128,27 @@ TERMINALS = [
     "id("
 ]
 
-w = '''
-def id( int id , int id ) {
-    int id , id , id ;
-    id := id + id ;
-    id := id + id * id ;
-    id := id - id ;
-    return id ;
- }
 
-    def id( ) {
-    int id , id , id ;
-    id := id ;
-    id := id ;
-    id := id( id , id ) ;
-    print id ;
-    return ;
- }
+w = '''
+def func1(int A, int B) {
+    int C, D, R;
+    C := A + B;
+    D := A + B * C;
+    R := C - D;
+    return R;
+}
+
+def principal() {
+    int X, Y, R;
+    X := 4;
+    Y := 5;
+    R := func1(X, Y);
+    print R;
+    return;
+}
 '''
+
+
 
 def parser(w, parsingTable):
 
@@ -150,12 +156,21 @@ def parser(w, parsingTable):
   # variável para guardar os elementos em que ocorreu match
   matchList = list()
 
+
   # Prepara buffer com string de texto + $ ao final
-  w = w.replace("\n", "") # substitui caracteres de linha nova por vazios
-  buffer = w.split(" ")
+  
+  lexer.input(w)
+  found_tokens = []
+  while True:
+      tok = lexer.token()
+      if not tok:
+          break
+      found_tokens.append(tok.value)
+
+  print(found_tokens)
+  
+  buffer = found_tokens
   buffer.append("$")
-  buffer = [el for el in buffer if el != ""] #remove elementos vazios
-  print(buffer)
 
   currentSymbolIndex = 0
 
@@ -191,8 +206,8 @@ def parser(w, parsingTable):
       
       # É terminal, mas não corresponde ao input
       print("Terminal incorreto")
-      print(len(X))
-      print(len(a))
+      print(X)
+      print(a)
       print(X == a)
       return "Erro"
   
