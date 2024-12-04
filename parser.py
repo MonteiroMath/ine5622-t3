@@ -125,12 +125,22 @@ TERMINALS = [
     "id("
 ]
 
-w = '''def id( int id , int id ) {
+w = '''
+def id( int id , int id ) {
     int id , id , id ;
     id := id + id ;
     id := id + id * id ;
     id := id - id ;
     return id ;
+ }
+
+    def id( ) {
+    int id , id , id ;
+    id := id ;
+    id := id ;
+    id := id( id , id ) ;
+    print id ;
+    return ;
  }
 '''
 
@@ -192,6 +202,7 @@ def parser(w, parsingTable):
       print("Produção não encontrada")
       print(X)
       print(a)
+      print(("TERM′", "(") in parsingTable)
       return "Erro"
 
     # X não é terminal, aciona a produção em M
