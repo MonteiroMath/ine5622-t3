@@ -1,4 +1,4 @@
-def exemploCorreto(int a, int b){
+def elseSemIf(int a, int b){
   
   int c, d, e, f;
 
@@ -27,7 +27,7 @@ def main(){
   a := 3;
   b := 15;
 
-  c := exemploCorreto(a, b);
+  c := elseSemIf(a, b);
 
   return c;
 }
