@@ -5,7 +5,6 @@ Matheus Beilfuss
 '''
 
 from lexer import lexer
-from parsingTable import PARSING_TABLE
 
 TERMINALS = [
     "id", "num",
@@ -14,41 +13,6 @@ TERMINALS = [
     "+", "-", "*", "/", ":=", "(", ")", "{", "}", ",", ";",
     "id("
 ]
-
-
-w = '''
-def exemploCorreto(int a, int b){
-  
-  int c, d, e, f;
-
-  c := a * b;
-  d := b / a;
-  e := c + d;
-  f := b - a;
-
-  if (e >= c){
-    if (f <= d){
-      return c;
-    } else {
-      return a;
-    }
-  } else {
-    return f;
-  } 
-  return a;
-  
-}
-
-def main(){
-  int a, b;
-  a := 3;
-  b := 15;
-
-  c := exemploCorreto(a, b);
-
-  return c;
-}
-'''
 
 
 def parser(w, parsingTable):
@@ -66,7 +30,7 @@ def parser(w, parsingTable):
             break
         found_tokens.append(tok.value)
 
-    #print(found_tokens)
+    # print(found_tokens)
 
     buffer = found_tokens
     buffer.append("$")
@@ -109,7 +73,8 @@ def parser(w, parsingTable):
         elif (X, a) not in parsingTable:
 
             print("\nErro: Produção não encontrada: \n")
-            print(f"Não-terminal fora da tabela de reconhecimento sintático: {X} - Valor do input: {a} \n")
+            print(
+                f"Não-terminal fora da tabela de reconhecimento sintático: {X} - Valor do input: {a} \n")
             return
 
         # X não é terminal, aciona a produção em M
@@ -128,14 +93,11 @@ def parser(w, parsingTable):
             stack.extend(reversed(production))
 
         X = stack[-1]
-    
-        #print(f"Pilha: {stack}")
-        #print(f"Match: {matchList}")
+
+        # print(f"Pilha: {stack}")
+        # print(f"Match: {matchList}")
     print("\nSucesso!\n")
 
     print("Lista ordenada de matchs:\n")
     for count, match in enumerate(matchList):
         print(f"Match {count + 1}: {match}")
-
-
-parser(w, PARSING_TABLE)
