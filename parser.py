@@ -17,9 +17,37 @@ TERMINALS = [
 
 
 w = '''
-if (int a)
-    return b;
+def exemploCorreto(int a, int b){
+  
+  int c, d, e, f;
 
+  c := a * b;
+  d := b / a;
+  e := c + d;
+  f := b - a;
+
+  if (e >= c){
+    if (f <= d){
+      return c;
+    } else {
+      return a;
+    }
+  } else {
+    return f;
+  } 
+  return a;
+  
+}
+
+def main(){
+  int a, b;
+  a := 3;
+  b := 15;
+
+  c := exemploCorreto(a, b);
+
+  return c;
+}
 '''
 
 
@@ -91,7 +119,7 @@ def parser(w, parsingTable):
 
             # Imprime a produção
             print(
-                f"Produção: {X} → {''.join(production) if production else 'ε'}")
+                f"Produção: {X} → {' '.join(production) if production else 'ε'}")
 
             # remove X da pilha
             stack.pop()
