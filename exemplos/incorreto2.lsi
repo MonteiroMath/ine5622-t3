@@ -1,31 +1,40 @@
-def ifSemBloco(int a, int b){
-  
-  int c, d, e, f;
+def ifSemBloco(int a, int b ){
 
-  c := a * b;
-  d := b / a;
-  e := c + d;
-  f := b - a;
-
-  if (e >= c){
-    if (f <= d)
-      return c;
-    else {
-      return a;
-    }
-  } else {
-    return f;
-  } 
-  return a;
+  int c, d;
   
+  if(a == 1){
+    c := a + b;
+  }
+
+  if (a == 2){
+    c := a-b;
+  }
+
+  if (a == 3)
+    c := a*b;
+
+  if (a == 4){
+    c := a/b;
+  }
+
+  if (a == 5){
+    c := a == b;
+  }
+
+  if (a == 6){
+    c := a <> b;
+  }
+
+  return c;
 }
 
 def main(){
-  int a, b;
+
+  int a, b, c;
+
   a := 3;
-  b := 15;
+  b := 5;
+  c := ifSemBloco(a,b);
+  print(c);
 
-  c := ifSemBloco(a, b);
-
-  return c;
 }

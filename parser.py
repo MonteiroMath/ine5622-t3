@@ -29,7 +29,8 @@ def parser(w, parsingTable):
         if not tok:
             break
         found_tokens.append(tok.value)
-
+        
+    print(found_tokens)
     # print(found_tokens)
 
     buffer = found_tokens
