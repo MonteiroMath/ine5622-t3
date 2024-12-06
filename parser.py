@@ -30,9 +30,6 @@ def parser(w, parsingTable):
             break
         found_tokens.append(tok.value)
         
-    print(found_tokens)
-    # print(found_tokens)
-
     buffer = found_tokens
     buffer.append("$")
 
@@ -95,10 +92,9 @@ def parser(w, parsingTable):
 
         X = stack[-1]
 
-        # print(f"Pilha: {stack}")
-        # print(f"Match: {matchList}")
     print("\nSucesso!\n")
 
     print("Lista ordenada de matchs:\n")
     for count, match in enumerate(matchList):
         print(f"Match {count + 1}: {match}")
+    print(matchList)
