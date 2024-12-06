@@ -1,3 +1,9 @@
+'''
+Carolina Pacheco da Silva
+Matheus Antunes Monteiro
+Matheus Beilfuss
+'''
+
 from lexer import lexer
 from parsingTable import PARSING_TABLE
 
@@ -11,9 +17,9 @@ TERMINALS = [
 
 
 w = '''
-if (a){
+if (int a)
     return b;
-}
+
 '''
 
 
@@ -32,7 +38,7 @@ def parser(w, parsingTable):
             break
         found_tokens.append(tok.value)
 
-    print(found_tokens)
+    #print(found_tokens)
 
     buffer = found_tokens
     buffer.append("$")
@@ -67,20 +73,16 @@ def parser(w, parsingTable):
         elif X in TERMINALS:
 
             # É terminal, mas não corresponde ao input
-            print("Terminal incorreto")
-            print(X)
-            print(a)
-            print(X == a)
-            return "Erro"
+            print("\nErro: Terminal incorreto (sem match): \n")
+            print(f"Terminal esperado: {X} - Terminal encontrado: {a}\n")
+            return
 
         # M[X, a] é uma entrada de erro
         elif (X, a) not in parsingTable:
 
-            print("Produção não encontrada")
-            print(X)
-            print(a)
-            print(("TERM′", "(") in parsingTable)
-            return "Erro"
+            print("\nErro: Produção não encontrada: \n")
+            print(f"Não-terminal fora da tabela de reconhecimento sintático: {X} - Valor do input: {a} \n")
+            return
 
         # X não é terminal, aciona a produção em M
         elif ((X, a) in parsingTable):
@@ -98,9 +100,14 @@ def parser(w, parsingTable):
             stack.extend(reversed(production))
 
         X = stack[-1]
-        print("Sucesso")
-        print(f"Pilha: {stack}")
-        print(f"Match: {matchList}")
+    
+        #print(f"Pilha: {stack}")
+        #print(f"Match: {matchList}")
+    print("\nSucesso!\n")
+
+    print("Lista ordenada de matchs:\n")
+    for count, match in enumerate(matchList):
+        print(f"Match {count + 1}: {match}")
 
 
 parser(w, PARSING_TABLE)

@@ -1,3 +1,9 @@
+'''
+Carolina Pacheco da Silva
+Matheus Antunes Monteiro
+Matheus Beilfuss
+'''
+
 PARSING_TABLE = {('S', '$'): ['MAIN'],
  ('S', 'def'): ['MAIN'],
  ('S', '{'): ['MAIN'],
