@@ -11,45 +11,9 @@ TERMINALS = [
 
 
 w = '''
-def main(int x, int y) {
-    int result, temp;
-
-    result := 0;
-    temp := x + y;
-
-    if (x < y) {
-      result := x * 2;
-      }
-    else 
-    
-    print result;
-
-    return result;
+if (a){
+    return b;
 }
-
-def computeSum(int a, int b, int c) {
-    int sum;
-
-    sum := a + b + c;
-
-    print sum;
-
-    return sum;
-}
-
-def computeFactorial(int n) {
-    int fact, i;
-
-    fact := 1;
-    i := 1;
-
-    fact := fact * i + n; 
-
-    print fact;
-
-    return fact;
-}
-
 '''
 
 
