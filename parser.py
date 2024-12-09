@@ -4,7 +4,7 @@ Matheus Antunes Monteiro
 Matheus Beilfuss
 '''
 
-from lexer import lexer
+from lexer import symbolic_lexer
 
 TERMINALS = [
     "id", "num",
@@ -22,16 +22,9 @@ def parser(w, parsingTable):
 
     # Prepara buffer com string de texto + $ ao final
 
-    lexer.input(w)
-    found_tokens = []
-    while True:
-        tok = lexer.token()
-        if not tok:
-            break
-        found_tokens.append(tok.value)
-        
+    found_tokens = symbolic_lexer(w + "$")
+    
     buffer = found_tokens
-    buffer.append("$")
 
     currentSymbolIndex = 0
 
@@ -48,9 +41,9 @@ def parser(w, parsingTable):
     while X != "$":
 
         # Se X == a, realiza o match
-        if X == a:
+        if X == a.type:
 
-            matchList.append(a)
+            matchList.append(a.value)
 
             # remove X da pilha
             stack.pop()
@@ -64,21 +57,21 @@ def parser(w, parsingTable):
 
             # É terminal, mas não corresponde ao input
             print("\nErro: Terminal incorreto (sem match): \n")
-            print(f"Terminal esperado: {X} - Terminal encontrado: {a}\n")
+            print(f"Terminal esperado: {X} \nTerminal encontrado: valor: {a.value}, tipo: {a.type}\n")
             return
 
         # M[X, a] é uma entrada de erro
-        elif (X, a) not in parsingTable:
+        elif (X, a.type) not in parsingTable:
 
             print("\nErro: Produção não encontrada: \n")
             print(
-                f"Não-terminal fora da tabela de reconhecimento sintático: {X} - Valor do input: {a} \n")
+                f"Não-terminal fora da tabela de reconhecimento sintático: {X}. \nValor do input: {a.value} , Tipo do input: {a.type} \n")
             return
 
         # X não é terminal, aciona a produção em M
-        elif ((X, a) in parsingTable):
+        elif ((X, a.type) in parsingTable):
 
-            production = parsingTable[(X, a)]
+            production = parsingTable[(X, a.type)]
 
             # Imprime a produção
             print(
